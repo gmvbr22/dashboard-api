@@ -8,8 +8,6 @@ export interface TokenGenerateOptions {
 export interface AccessTokenManager {
   /**
    * Generate new token access
-   *
-   * @param opt
    */
   generate(opt: TokenGenerateOptions): Promise<string>;
 
