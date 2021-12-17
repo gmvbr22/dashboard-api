@@ -1,0 +1,19 @@
+{
+  "name": "dashboard-api",
+  "version": "1.0.0",
+  "description": "Webservice dashboard",
+  "main": "index.js",
+  "private": true,
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gmvbr/dashboard-api.git"
+  },
+  "keywords": [],
+  "author": "gmvbr <https://github.com/gmvbr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gmvbr/dashboard-api/issues"
+  },
+  "homepage": "https://github.com/gmvbr/dashboard-api#readme"
+}
