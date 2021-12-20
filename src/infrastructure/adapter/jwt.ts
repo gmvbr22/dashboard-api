@@ -29,7 +29,8 @@ export class JWTAdapter implements AccessTokenManager {
   }
 
   public async generate(payload: TokenGenerateOptions): Promise<string> {
-    if (!this.validatePayload(payload)) {
+    const valid = this.validatePayload(payload);
+    if (!valid) {
       throw new PayloadInvalidError();
     }
     return sign(payload, this.secret);
@@ -37,8 +38,8 @@ export class JWTAdapter implements AccessTokenManager {
 
   public async verify(token: string): Promise<TokenGenerateOptions> {
     const payload = await verify(token, this.secret);
-
-    if (!this.validatePayload(payload)) {
+    const valid = this.validatePayload(payload);
+    if (!valid) {
       throw new PayloadInvalidError();
     }
     return payload as TokenGenerateOptions;
