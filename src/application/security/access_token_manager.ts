@@ -14,5 +14,5 @@ export interface AccessTokenManager {
   /**
    * Validate token access
    */
-  validate(token: string): Promise<TokenGenerateOptions>;
+  verify(token: string): Promise<TokenGenerateOptions>;
 }

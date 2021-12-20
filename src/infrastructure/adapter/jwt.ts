@@ -28,20 +28,20 @@ export class JWTAdapter implements AccessTokenManager {
     });
   }
 
-  public async generate(options: TokenGenerateOptions): Promise<string> {
-    const valid = this.isValidPayload(options);
+  public async generate(payload: TokenGenerateOptions): Promise<string> {
+    const valid = this.isValidPayload(payload);
     if (!valid) {
       throw new MissingParamsError();
     }
-    return sign(options, this.secret);
+    return sign(payload, this.secret);
   }
 
-  public async validate(tokenStr: string): Promise<TokenGenerateOptions> {
-    const token = (await verify(tokenStr, this.secret)) as TokenGenerateOptions;
-    const valid = this.isValidPayload(token);
+  public async verify(token: string): Promise<TokenGenerateOptions> {
+    const payload = await verify(token, this.secret);
+    const valid = this.isValidPayload(payload);
     if (!valid) {
       throw new MissingParamsError();
     }
-    return token;
+    return payload as TokenGenerateOptions;
   }
 }

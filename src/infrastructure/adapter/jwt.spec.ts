@@ -27,12 +27,12 @@ describe('JWTAdapter', () => {
     const token = await adapter.generate(payload);
     expect(token).not.toBeNull();
 
-    const {sub, role, device, exp} = await adapter.validate(token);
+    const {sub, role, device, exp} = await adapter.verify(token);
     await expect({sub, role, device, exp}).toStrictEqual(payload);
   });
 
   test('should check the parameters of the token', async () => {
-    await expect(adapter.validate(sign({}, secret))).rejects.toThrowError(
+    await expect(adapter.verify(sign({}, secret))).rejects.toThrowError(
       MissingParamsError
     );
   });
@@ -43,8 +43,6 @@ describe('JWTAdapter', () => {
       exp: Math.floor(Date.now() / 1000) - 60 * 60,
     });
     expect(token).not.toBeNull();
-    await expect(adapter.validate(token)).rejects.toThrowError(
-      TokenExpiredError
-    );
+    await expect(adapter.verify(token)).rejects.toThrowError(TokenExpiredError);
   });
 });
