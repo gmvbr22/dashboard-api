@@ -10,11 +10,11 @@ export class PayloadInvalidError extends Error {
 
 export class JWTAdapter implements AccessTokenManager {
   private secret: string;
-  private isValidPayload: ValidateFunction;
+  private validatePayload: ValidateFunction;
 
   public constructor(secret: string) {
     this.secret = secret;
-    this.isValidPayload = new Ajv().compile({
+    this.validatePayload = new Ajv().compile({
       type: 'object',
       properties: {
         exp: {type: 'integer'},
@@ -29,8 +29,7 @@ export class JWTAdapter implements AccessTokenManager {
   }
 
   public async generate(payload: TokenGenerateOptions): Promise<string> {
-    const valid = this.isValidPayload(payload);
-    if (!valid) {
+    if (!this.validatePayload(payload)) {
       throw new PayloadInvalidError();
     }
     return sign(payload, this.secret);
@@ -38,8 +37,8 @@ export class JWTAdapter implements AccessTokenManager {
 
   public async verify(token: string): Promise<TokenGenerateOptions> {
     const payload = await verify(token, this.secret);
-    const valid = this.isValidPayload(payload);
-    if (!valid) {
+
+    if (!this.validatePayload(payload)) {
       throw new PayloadInvalidError();
     }
     return payload as TokenGenerateOptions;
