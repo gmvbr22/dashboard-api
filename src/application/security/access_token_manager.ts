@@ -7,12 +7,12 @@ export interface TokenGenerateOptions {
 
 export interface AccessTokenManager {
   /**
-   * Generate new token access
+   * Gera um token de acesso
    */
   generate(opt: TokenGenerateOptions): Promise<string>;
 
   /**
-   * Validate token access
+   * Verifica se o token de acesso está válido
    */
   verify(token: string): Promise<TokenGenerateOptions>;
 }
