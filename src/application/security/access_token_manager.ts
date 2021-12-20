@@ -1,8 +1,8 @@
 export interface TokenGenerateOptions {
-  id: string;
+  sub: string;
   role: string;
   device: string;
-  expire: number;
+  exp: number;
 }
 
 export interface AccessTokenManager {
