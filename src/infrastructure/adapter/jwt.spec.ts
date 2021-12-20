@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {sign, TokenExpiredError} from 'jsonwebtoken';
-import {JWTAdapter, MissingParamsError} from './jwt';
+import {JWTAdapter, PayloadInvalidError} from './jwt';
 
 const secret = 'test secret';
 const payload = {
@@ -19,7 +19,7 @@ describe('JWTAdapter', () => {
 
   test('should not generate a valid token', async () => {
     await expect(adapter.generate(null as any)).rejects.toThrowError(
-      MissingParamsError
+      PayloadInvalidError
     );
   });
 
@@ -33,7 +33,7 @@ describe('JWTAdapter', () => {
 
   test('should check the parameters of the token', async () => {
     await expect(adapter.verify(sign({}, secret))).rejects.toThrowError(
-      MissingParamsError
+      PayloadInvalidError
     );
   });
 

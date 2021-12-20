@@ -2,9 +2,9 @@ import {sign, verify} from 'jsonwebtoken';
 import Ajv, {ValidateFunction} from 'ajv';
 import {AccessTokenManager, TokenGenerateOptions} from '../../application';
 
-export class MissingParamsError extends Error {
+export class PayloadInvalidError extends Error {
   constructor() {
-    super('Missing params');
+    super('payload is invalid or corrupted');
   }
 }
 
@@ -31,7 +31,7 @@ export class JWTAdapter implements AccessTokenManager {
   public async generate(payload: TokenGenerateOptions): Promise<string> {
     const valid = this.isValidPayload(payload);
     if (!valid) {
-      throw new MissingParamsError();
+      throw new PayloadInvalidError();
     }
     return sign(payload, this.secret);
   }
@@ -40,7 +40,7 @@ export class JWTAdapter implements AccessTokenManager {
     const payload = await verify(token, this.secret);
     const valid = this.isValidPayload(payload);
     if (!valid) {
-      throw new MissingParamsError();
+      throw new PayloadInvalidError();
     }
     return payload as TokenGenerateOptions;
   }
